@@ -1,0 +1,32 @@
+<mvc:View
+    controllerName="zrobto.todo.controller.App"  
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true"
+>
+    <Page id="page" title="{i18n>appTitle}">
+        <headerContent>
+            <Button icon="sap-icon://add" press=".onAddTodo" />
+        </headerContent>
+        <content>
+            <Input id="newTodoInput" placeholder="{i18n>addTodoPlaceholder}" submit=".onAddTodo"/>
+            <List
+                id="todoList"
+                items="{/todos}"
+                noDataText="{i18n>noTodosText}"
+                mode="SingleSelectMaster"
+                selectionChange=".onSelectionChange"
+            >
+                <StandardListItem
+                    title="{title}"
+                    type="Active"
+                    icon="{= ${completed} ? 'sap-icon://accept' : 'sap-icon://pending' }"
+                    iconDensityAware="false"
+                    iconInset="false"
+                />
+            </List>
+             <Button id="undoButton" text="{i18n>undoButton}" press=".onUndoDelete" visible="false" />
+        </content>
+
+    </Page>
+</mvc:View>
