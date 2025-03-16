@@ -1,0 +1,102 @@
+{
+    "sap.app": {
+      "id": "zrobto.todo",  
+      "type": "application",
+      "i18n": "i18n/i18n.properties",
+      "applicationVersion": {
+        "version": "0.0.1"
+      },
+      "title": "{{appTitle}}",
+      "description": "{{appDescription}}",
+      "resources": "resources.json",
+      "sourceTemplate": {
+        "id": "@sap/generator-fiori:basic",
+        "version": "1.16.3",
+        "toolsId": "2ebb78b1-0e1b-4191-9e8e-cc04ffdcd10c"
+      }
+    },
+    "sap.ui": {
+      "technology": "UI5",
+      "icons": {
+        "icon": "",
+        "favIcon": "",
+        "phone": "",
+        "phone@2": "",
+        "tablet": "",
+        "tablet@2": ""
+      },
+      "deviceTypes": {
+        "desktop": true,
+        "tablet": true,
+        "phone": true
+      }
+    },
+    "sap.ui5": {
+      "flexEnabled": true,
+      "dependencies": {
+        "minUI5Version": "1.132.1",
+        "libs": {
+          "sap.m": {},
+          "sap.ui.core": {}
+        }
+      },
+      "contentDensities": {
+        "compact": true,
+        "cozy": true
+      },
+      "models": {
+        "i18n": {
+          "type": "sap.ui.model.resource.ResourceModel",
+          "settings": {
+            "bundleName": "zrobto.todo.i18n.i18n"
+          }
+        },
+        "": {
+          "type": "sap.ui.model.json.JSONModel",
+          "uri": "model/data.json",
+          "preload": true
+        }
+      },
+      "resources": {
+        "css": [
+          {
+            "uri": "css/style.css"
+          }
+        ]
+      },
+      "routing": {
+        "config": {
+          "routerClass": "sap.m.routing.Router",
+          "controlAggregation": "pages",
+          "controlId": "app",
+          "transition": "slide",
+          "type": "View",
+          "viewType": "XML",
+          "path": "zrobto.todo.view",
+          "async": true,
+          "viewPath": "zrobto.todo.view"
+        },
+        "routes": [
+          {
+            "name": "RouteView1",
+            "pattern": ":?query:",
+            "target": [
+              "TargetView1"
+            ]
+          }
+        ],
+        "targets": {
+          "TargetView1": {
+            "id": "View1",
+            "name": "View1"
+          }
+        }
+      },
+      "rootView": {
+        "viewName": "zrobto.todo.view.App", 
+        "type": "XML",
+        "id": "App"
+      }
+    }
+  }
+  
