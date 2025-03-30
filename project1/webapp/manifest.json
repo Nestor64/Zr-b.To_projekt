@@ -53,8 +53,7 @@
         },
         "": {
           "type": "sap.ui.model.json.JSONModel",
-          "uri": "model/data.json",
-          "preload": true
+          "uri": "model/data.json"
         }
       },
       "resources": {
@@ -67,36 +66,31 @@
       "routing": {
         "config": {
           "routerClass": "sap.m.routing.Router",
-          "controlAggregation": "pages",
-          "controlId": "app",
-          "transition": "slide",
-          "type": "View",
           "viewType": "XML",
-          "path": "zrobto.todo.view",
-          "async": true,
-          "viewPath": "zrobto.todo.view"
+          "viewPath": "zrobto.todo.view",
+          "controlId": "app",
+          "controlAggregation": "pages",
+          "async": true
         },
         "routes": [
           {
-            "name": "RouteView1",
-            "pattern": ":?query:",
-            "target": [
-              "TargetView1"
-            ]
+            "pattern": "",
+            "name": "app",
+            "target": "app"
           }
         ],
         "targets": {
-          "TargetView1": {
-            "id": "View1",
-            "name": "View1"
+          "app": {
+            "viewName": "App",
+            "viewLevel": 1
           }
         }
       },
       "rootView": {
-        "viewName": "zrobto.todo.view.App", 
+        "viewName": "zrobto.todo.view.App",
         "type": "XML",
-        "id": "App"
+        "async": true,
+        "id": "app"
       }
     }
   }
-  

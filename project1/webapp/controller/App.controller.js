@@ -9,60 +9,54 @@ sap.ui.define([
   return Controller.extend("zrobto.todo.controller.App", { 
 
       onInit: function () {
-          // Model jest już zdefiniowany w manifest.json,
-          // więc nie musimy go tutaj inicjalizować.
-          this._lastDeletedTodo = null; // Przechowuje ostatnio usunięte zadanie
-          this._lastDeletedIndex = null; // Przechowuje indeks ostatnio usuniętego zadania
+          this._lastDeletedTodo = null; 
+          this._lastDeletedIndex = null; 
       },
 
       onAddTodo: function () {
-    //Pobierz model
           var oModel = this.getView().getModel();
           var aTodos = oModel.getProperty("/todos");
+          var sNewTodoTitle = this.byId("newTodoInput").getValue();
 
-    //Pobierz wartość z inputu
-    var sNewTodoTitle = this.byId("newTodoInput").getValue();
+          if (!sNewTodoTitle) {
+              MessageBox.error("Enter a task title");
+              return;
+          }
 
-    //Sprawdź czy input nie jest pusty
-    if (!sNewTodoTitle){
-      MessageBox.error("Wprowadź tytuł zadania");
-      return;
-    }
-
-          // Utwórz nowe zadanie
           var newTodo = {
-              id: aTodos.length + 1, // Proste generowanie ID
-              title: sNewTodoTitle, // Użyj wartości z inputu
+              id: aTodos.length + 1, 
+              title: sNewTodoTitle, 
               completed: false
           };
 
-          // Dodaj nowe zadanie do modelu
           aTodos.push(newTodo);
           oModel.setProperty("/todos", aTodos);
-
-    //Wyczyść input
-    this.byId("newTodoInput").setValue("");
-
-          MessageToast.show("Dodano nowe zadanie");
+          this.byId("newTodoInput").setValue("");
+          MessageToast.show("New task added");
       },
 
       onSelectionChange: function (oEvent) {
-          var oSelectedItem = oEvent.getParameter("listItem");
-          var sPath = oSelectedItem.getBindingContext().getPath();
-          var oDialog = this.byId("editDialog");
+          try {
+              var oSelectedItem = oEvent.getParameter("listItem");
+              var sPath = oSelectedItem.getBindingContext().getPath();
+              var oDialog = this.byId("editDialog");
 
-          if (!oDialog) {
-              oDialog = sap.ui.xmlfragment(this.getView().getId(), "zrobto.todo.view.EditDialog", this); 
-              this.getView().addDependent(oDialog);
+              if (!oDialog) {
+                  oDialog = sap.ui.xmlfragment(this.getView().getId(), "zrobto.todo.view.EditDialog", this); 
+                  this.getView().addDependent(oDialog);
+              }
+              oDialog.bindElement(sPath);
+              oDialog.open();
+          } catch (error) {
+              MessageBox.error("Błąd podczas otwierania okna dialogowego");
+              console.error(error);
           }
-          oDialog.bindElement(sPath);
-          oDialog.open();
       },
 
       onSave: function () {
           this.byId("editDialog").close();
-          MessageToast.show("Zapisano zmiany");
-          this.byId("todoList").getBinding("items").refresh(); // Odśwież listę
+          MessageToast.show("Changes saved");
+          this.byId("todoList").getBinding("items").refresh(); 
       },
 
       onDelete: function () {
@@ -72,19 +66,15 @@ sap.ui.define([
           var aTodos = oModel.getProperty("/todos");
           var index = parseInt(sPath.substring(sPath.lastIndexOf('/') + 1));
 
-          // Zapisz usunięte zadanie i jego indeks
           this._lastDeletedTodo = aTodos[index];
           this._lastDeletedIndex = index;
 
-          // Usuń zadanie z tablicy
           aTodos.splice(index, 1);
           oModel.setProperty("/todos", aTodos);
 
           oDialog.close();
-          MessageToast.show("Usunięto zadanie");
+          MessageToast.show("Task deleted");
           this.byId("todoList").getBinding("items").refresh();
-
-          // Pokaż przycisk "Cofnij"
           this.byId("undoButton").setVisible(true);
       },
 
@@ -97,18 +87,14 @@ sap.ui.define([
               var oModel = this.getView().getModel();
               var aTodos = oModel.getProperty("/todos");
 
-              // Dodaj usunięte zadanie z powrotem na swoje miejsce
               aTodos.splice(this._lastDeletedIndex, 0, this._lastDeletedTodo);
               oModel.setProperty("/todos", aTodos);
 
-              // Wyczyść zmienne przechowujące usunięte zadanie
               this._lastDeletedTodo = null;
               this._lastDeletedIndex = null;
 
-              MessageToast.show("Przywrócono zadanie");
+              MessageToast.show("Task restored");
               this.byId("todoList").getBinding("items").refresh();
-
-              // Ukryj przycisk "Cofnij"
               this.byId("undoButton").setVisible(false);
           }
       }

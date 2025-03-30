@@ -8,19 +8,14 @@
             <f:content>
                 <Label text="{i18n>titleLabel}" />
                 <Input value="{title}" />
-
                 <Label text="{i18n>completedLabel}" />
                 <CheckBox selected="{completed}" />
             </f:content>
         </f:SimpleForm>
-        <beginButton>
+        <buttons>
             <Button text="{i18n>saveButton}" press=".onSave" type="Emphasized"/>
-        </beginButton>
-        <endButton>
             <Button text="{i18n>deleteButton}" press=".onDelete" type="Reject"/>
-        </endButton>
-         <endButton>
             <Button text="{i18n>cancelButton}" press=".onCancel" />
-        </endButton>
+        </buttons>
     </Dialog>
 </core:FragmentDefinition>

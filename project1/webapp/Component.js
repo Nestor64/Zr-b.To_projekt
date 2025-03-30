@@ -4,15 +4,27 @@ sap.ui.define([
     "use strict";
 
     return UIComponent.extend("zrobto.todo.Component", {
-
         metadata: {
             manifest: "json"
         },
 
         init: function () {
-            UIComponent.prototype.init.apply(this, arguments);
+            try {
+                // Initialize the parent
+                UIComponent.prototype.init.apply(this, arguments);
 
-            this.getRouter().initialize();
+                // Initialize the router
+                const oRouter = this.getRouter();
+                if (oRouter) {
+                    oRouter.initialize();
+                    console.log("Router initialized successfully.");
+                } else {
+                    throw new Error("Router initialization failed");
+                }
+            } catch (error) {
+                console.error("Error during Component initialization:", error);
+                throw error;
+            }
         }
     });
 });
